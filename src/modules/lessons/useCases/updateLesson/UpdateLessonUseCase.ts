@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../errors/AppError";
 import { Lesson } from "../../entities/Lesson";
 import { ILessonsRepository } from "../../repositories/ILessonsRepository";
+import * as Yup from "yup";
 
 interface IRequest {
   id: string;
@@ -23,6 +24,16 @@ class UpdateLessonUseCase {
     date_lesson,
     module_id,
   }: IRequest): Promise<Lesson> {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      date_lesson: Yup.date().required(),
+      module_id: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid({ name, date_lesson, module_id }))) {
+      throw new AppError("Validation fails");
+    }
+
     const lesson = await this.lessonsRepository.findById(id);
 
     if (!lesson) {

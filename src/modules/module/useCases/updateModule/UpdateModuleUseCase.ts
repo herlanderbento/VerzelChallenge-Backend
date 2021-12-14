@@ -2,11 +2,11 @@ import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../errors/AppError";
 import { Module } from "../../entities/Module";
 import { IModulesRepository } from "../../repositories/IModulesRepository";
+import * as Yup from "yup";
 
 interface IRequest {
   id: string;
   name: string;
-  description: string;
 }
 
 @injectable()
@@ -16,7 +16,15 @@ class UpdateModuleUseCase {
     private modulesRepository: IModulesRepository
   ) {}
 
-  async execute({ id, name, description }: IRequest): Promise<Module> {
+  async execute({ id, name }: IRequest): Promise<Module> {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid({ name }))) {
+      throw new AppError("Validation fails");
+    }
+
     const modules = await this.modulesRepository.findById(id);
 
     if (!modules) {
@@ -33,7 +41,6 @@ class UpdateModuleUseCase {
 
     Object.assign(modules, {
       name,
-      description,
       updated_at: new Date(),
     });
 

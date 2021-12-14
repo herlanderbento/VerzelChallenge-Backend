@@ -25,8 +25,8 @@ Os recursos funcionais da aplicação são:
 
 # Modelagem da base de dados
 
-- 1º - Cria um banco de dados no postgres com o nome "db_verzel"
-- 2º - Coloca as configuração do teu Postgres no arquivo `ormconfig.json`
+- Cria um banco de dados no postgres com o nome `"db_verzel"`
+- Coloca as configuração do teu Postgres no arquivo `ormconfig.json`
 
 ```
 {
@@ -37,7 +37,7 @@ Os recursos funcionais da aplicação são:
 
 ```
 
-- 3º - Execute o seguinte comando para criar as migrations.
+- Execute o seguinte comando para criar as migrations.
 
 ```
   yarn typeorm migration:run
@@ -47,13 +47,16 @@ Os recursos funcionais da aplicação são:
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/herlanderbento/VerzelChallenge-Backend
+$ git clone https://github.com/herlanderbento/verzelChallenge-backend.git
 
 # Entre na pasta
-$ cd VerzelChallenge-Backend
+$ cd verzelChallenge-backend
 
 # Instale as dependências
 $ yarn ou yarn install
+
+# Execute este comando para criar as migrations
+ yarn typeorm migration:run
 
 # Execute a aplicação em modo de desenvolvimento
 $ yarn dev
