@@ -6,9 +6,12 @@ import { usersRoutes } from "./users.routes";
 
 const router = Router();
 
-router.use("/module", moduleRoutes);
-router.use("/lesson", lessonRoutes);
-router.use("/users", usersRoutes);
+const prefixRouter = "/api/v1";
+
+router.use(`${prefixRouter}/modules`, moduleRoutes);
+router.use(`${prefixRouter}/lessons`, lessonRoutes);
+router.use(`${prefixRouter}/users`, usersRoutes);
+
 router.use(authenticateRoutes);
 
 export { router };
