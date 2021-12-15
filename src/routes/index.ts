@@ -11,7 +11,6 @@ const prefixRouter = "/api/v1";
 router.use(`${prefixRouter}/modules`, moduleRoutes);
 router.use(`${prefixRouter}/lessons`, lessonRoutes);
 router.use(`${prefixRouter}/users`, usersRoutes);
-
-router.use(authenticateRoutes);
+router.use(`${prefixRouter}/sessions`, authenticateRoutes);
 
 export { router };

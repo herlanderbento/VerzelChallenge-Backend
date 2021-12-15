@@ -1,12 +1,15 @@
 import { getRepository, Repository } from "typeorm";
+import { Module } from "../../../module/entities/Module";
 import { Lesson } from "../../entities/Lesson";
 import { ICreateLessonDTO, ILessonsRepository } from "../ILessonsRepository";
 
 class LessonsRepository implements ILessonsRepository {
   private repository: Repository<Lesson>;
+  private modulesRepository: Repository<Module>;
 
   constructor() {
     this.repository = getRepository(Lesson);
+    this.modulesRepository = getRepository(Module);
   }
 
   async create({
@@ -26,6 +29,9 @@ class LessonsRepository implements ILessonsRepository {
   async list(): Promise<Lesson[]> {
     const lesson = await this.repository.find({
       relations: ["module"],
+      order: {
+        name: "ASC",
+      },
     });
 
     return lesson;
@@ -41,6 +47,12 @@ class LessonsRepository implements ILessonsRepository {
     const lesson = await this.repository.findOne({ id });
 
     return lesson;
+  }
+
+  async findByIdModule(id: string): Promise<Module> {
+    const modules = await this.modulesRepository.findOne({ id });
+
+    return modules;
   }
 
   async findAllOfModule(module_id: string): Promise<Lesson[]> {

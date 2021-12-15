@@ -18,17 +18,26 @@ class ModulesRepository implements IModulesRepository {
   }
 
   async list(): Promise<Module[]> {
-    const modules = await this.repository.find({
-      order: {
-        name: "ASC",
-      },
-    });
+    const list = await this.repository
+      .createQueryBuilder("modules")
+      .loadRelationCountAndMap("modules.lessonCount", "modules.lesson")
+      .getMany();
 
-    return modules;
+    return list;
+  }
+
+  async listAllRelationsAndCount(): Promise<Module[]> {
+    const list = await this.repository
+      .createQueryBuilder("modules")
+      .innerJoinAndSelect("modules.lesson", "lesson")
+      .loadRelationCountAndMap("modules.lessonCount", "modules.lesson")
+      .orderBy("lesson.name", "ASC")
+      .getMany();
+
+    return list;
   }
 
   async findByName(name: string): Promise<Module> {
-    // Select * from module where name = "name" limit 1
     const modules = await this.repository.findOne({ name });
 
     return modules;

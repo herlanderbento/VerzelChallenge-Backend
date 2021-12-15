@@ -8,9 +8,9 @@ class ListModulesController {
 
     const list = await listModulesUseCases.execute();
 
-    const all = Object.assign([...list, { total: list.length }]);
+    //const all = Object.assign([...list, { total: list.length }]);
 
-    return response.json(all);
+    return response.json(list);
   }
 }
 

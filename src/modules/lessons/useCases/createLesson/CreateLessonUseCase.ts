@@ -28,6 +28,12 @@ class CreateLessonUseCase {
       throw new AppError("Validation fails");
     }
 
+    const modules = await this.lessonsRepository.findByIdModule(module_id);
+
+    if (!modules) {
+      throw new AppError("Module not found");
+    }
+
     const lessonAlreadyExits = await this.lessonsRepository.findByName(name);
 
     if (lessonAlreadyExits) {

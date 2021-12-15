@@ -1,3 +1,4 @@
+import { Module } from "../../module/entities/Module";
 import { Lesson } from "../entities/Lesson";
 
 interface ICreateLessonDTO {
@@ -8,6 +9,7 @@ interface ICreateLessonDTO {
 
 interface ILessonsRepository {
   findByName(name: string): Promise<Lesson>;
+  findByIdModule(id: string): Promise<Module>;
   findById(id: string): Promise<Lesson>;
   findAllOfModule(module_id: string): Promise<Lesson[]>;
   create({ name, date_lesson, module_id }: ICreateLessonDTO): Promise<void>;

@@ -24,7 +24,7 @@ class Lesson {
   @Column()
   module_id: string;
 
-  @ManyToOne(() => Module)
+  @ManyToOne(() => Module, (modules) => modules.lesson)
   @JoinColumn({ name: "module_id" })
   module: Module[];
 
