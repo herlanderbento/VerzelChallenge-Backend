@@ -3,6 +3,7 @@ import { hash } from "bcrypt";
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { AppError } from "../../../../errors/AppError";
+import * as Yup from "yup";
 
 @injectable()
 class CreateUserUseCase {
@@ -12,6 +13,16 @@ class CreateUserUseCase {
   ) {}
 
   async execute({ name, email, password }: ICreateUserDTO): Promise<void> {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid({ name, email, password }))) {
+      throw new AppError("Validation fails");
+    }
+
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {

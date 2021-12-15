@@ -3,6 +3,7 @@ import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../errors/AppError";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
+import * as Yup from "yup";
 
 interface IRequest {
   email: string;
@@ -25,6 +26,14 @@ class AuthenticateUserUseCase {
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required(),
+      password: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid({ email, password }))) {
+      throw new AppError("Validation fails");
+    }
     //if user exists.
     const user = await this.usersRepository.findByEmail(email);
 
