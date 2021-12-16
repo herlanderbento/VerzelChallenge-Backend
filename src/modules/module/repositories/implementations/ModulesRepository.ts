@@ -27,12 +27,21 @@ class ModulesRepository implements IModulesRepository {
   }
 
   async listAllRelationsAndCount(): Promise<Module[]> {
-    const list = await this.repository
-      .createQueryBuilder("modules")
-      .innerJoinAndSelect("modules.lesson", "lesson")
-      .loadRelationCountAndMap("modules.lessonCount", "modules.lesson")
-      .orderBy("lesson.name", "ASC")
-      .getMany();
+    // const list = await this.repository
+    //   .createQueryBuilder("modules")
+    //   .innerJoinAndSelect("modules.lesson", "lesson")
+    //   .loadRelationCountAndMap("modules.lessonCount", "modules.lesson")
+    //   .orderBy("lesson.name", "ASC")
+    //   .getMany();
+
+    // return list;
+
+    const list = await this.repository.find({
+      relations: ["lesson"],
+      order: {
+        name: "ASC",
+      },
+    });
 
     return list;
   }
