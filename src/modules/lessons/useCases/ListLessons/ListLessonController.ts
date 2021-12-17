@@ -8,9 +8,9 @@ class ListLessonsController {
 
     const list = await listLessonsUseCase.execute();
 
-    const all = Object.assign([...list, { total: list.length }]);
+    // all = Object.assign([...list, { total: list.length }]);
 
-    return response.json(all);
+    return response.json(list);
   }
 }
 

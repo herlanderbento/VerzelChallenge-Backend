@@ -12,9 +12,9 @@ class ListLessonOfModuleController {
 
     const list = await listLessonOfModuleUseCase.execute(module_id);
 
-    const all = Object.assign([...list, { total: list.length }]);
+    //const all = Object.assign([...list, { total: list.length }]);
 
-    return response.status(200).json(all);
+    return response.status(200).json(list);
   }
 }
 
